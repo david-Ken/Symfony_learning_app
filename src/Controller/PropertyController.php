@@ -16,16 +16,17 @@ class PropertyController extends AbstractController
     /**
      * @var PropertyRepository
      */
-    private  $repository;
+    private $repository;
 
     /**
      * @var ObjectManager
      */
-    private  $em;
-    public  function  __construct(PropertyRepository $repository, ObjectManager $em)
+    private $em;
+
+    public function __construct(PropertyRepository $repository, ObjectManager $em)
     {
         $this->repository = $repository;
-        $this->em =$em;
+        $this->em = $em;
     }
 
     /**
@@ -35,11 +36,17 @@ class PropertyController extends AbstractController
 
     public function index(): Response
     {
-        $property = $this->repository->findAllVisible();
-        $property[0]->setSold(true);
-        $this->em->flush();
-      //  $repository =$this->getDoctrine()->getRepository(Property::class);
-      //  dump($repository);
         return $this->render('property/index.html.twig', ['current_menu' => 'properties']);
+    }
+
+    /**
+     * @@Route('/biens/{slug}.{id},name="property/index.html.twig',requirements={={"slug": "[a-z0-9\-]*"})
+     * @return Response
+     */
+    public function show(): Response
+    {
+        return $this->render('property/show.html.twig', [
+            'current_menu' => 'properties'
+        ]);
     }
 }
